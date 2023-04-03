@@ -13,6 +13,7 @@ import EmailEnviado from '@Pages/EmailEnviado';
 import RecuperarPass from '@Pages/RecuperarPass';
 import AppContext from '../context/AppContext';
 import useEstadoInicial from '../hooks/useEstadoInicial';
+import Callback from '../pages/Callback';
 
 const App =() => {
     

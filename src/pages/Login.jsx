@@ -23,6 +23,8 @@ const handleLoginClick = () => {
                 <img src={logo} alt="" className="logo-login" />
                 <h2 className="title-store">Book Nook</h2>
                 <button className="boton-principall" onClick={handleLoginClick}>Login with Google</button>
+       
+
             </div>
         </div>
 

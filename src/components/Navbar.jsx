@@ -1,5 +1,4 @@
 import '@styles/Navbar.scss'
-import logo from '@assets/televisa.png'
 import burger from '@assets/burger.ico'
 import cart from '@assets/cart.png'
 import Menu from '@Components/Menu.jsx'
@@ -7,7 +6,9 @@ import React,{ useState, useContext, useEffect } from 'react';
 import AppContext from '../context/AppContext';
 import MiOrdenCo from './MiordenCo'
 import MenuCat from './MenuCat'
-
+import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import logo from '@assets/logo.png'
 
 const Header = () => {
 
@@ -50,28 +51,21 @@ const Header = () => {
 
     return (
         <div>
- <nav>
-            <img src={burger} width="24" height="24" alt="menu" className="menu" onClick={toggleNav}/>
-        <div className="navbar-izquierda">
-            <img src={logo} width="24" height="24" alt="logo" className="logo"/>
-            <ul>
-                <li><a href="/">Todos</a></li>
-                <li><a href="/">Ropa</a></li>
-                <li><a href="/">Electronica</a></li>
-                <li><a href="/">Muebles</a></li>
-                <li><a href="/">Juguetes</a></li>
-                <li><a href="/">otros</a></li>
-            </ul>
+  <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container">
+        <Link to="/" className="navbar-brand">
+          <img src={logo} alt="logo-nav" className="me-2 logo-nav" />
+          My Bookshelf
+        </Link>
+        <form className="d-flex mx-auto">
+          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <button className="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <div className="d-flex">
+          <Link to="/profile" className="btn btn-outline-secondary me-2">Profile</Link>
+          <Link to="/library" className="btn btn-outline-secondary">Library</Link>
         </div>
-        <div className="navbar-derecha">
-            <ul>
-                <li className="navbar-email">  <a onClick={toggleComponente} >chochua@vazquez.com</a></li>
-                <li className="navbar-carrito">
-                    <img src={cart} width="24" height="24" alt="carrito" className="carrito" onClick={toggleMiorden}/>
-                    {state.carrito.length > 0? <div className='carritounidades'>{state.carrito.length}</div>: null}
-                </li>
-            </ul>
-        </div>
+      </div>
     </nav>
 
     {mostrarComponente2 && <MiOrdenCo/>}
