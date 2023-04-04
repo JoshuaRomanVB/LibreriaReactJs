@@ -2,18 +2,17 @@ import React from 'react';
 import '@styles/global.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from '@Containers/Layout';
-import CrearCuenta from '@Pages/CrearCuenta';
 import Home from '@Pages/Home';
 import NoEncontrado from '@Pages/NoEncontrado';
 import MiCuenta from '@Pages/MiCuenta';
-import MiOrden from '@Pages/MiOrden';
 import Login from '@Pages/Login';
-import NuevoPass from '@Pages/NuevoPass';
-import EmailEnviado from '@Pages/EmailEnviado';
-import RecuperarPass from '@Pages/RecuperarPass';
 import AppContext from '../context/AppContext';
 import useEstadoInicial from '../hooks/useEstadoInicial';
 import Callback from '../pages/Callback';
+import SearchResultsPage from '../pages/SearchResultPage';
+import SearchResults from '../components/SearchResults';
+import BookDetails from '../pages/BookDetails';
+import CategoryResult from '../pages/CategoryResult';
 
 const App =() => {
     
@@ -25,17 +24,15 @@ const estadoInicial = useEstadoInicial()
         
         <Layout>
         <Routes>
-            <Route path='/crearcuenta' element ={<CrearCuenta/>}/>
             <Route path='/home' element={<Home/>}/>
             <Route path='/login' element ={<Login/>}/>
             <Route path='/micuenta' element ={<MiCuenta/>}/>
-            <Route path='/nuevopass' element ={<NuevoPass/>}/>
             <Route path='*' element ={<NoEncontrado/>}/>
-            <Route path='/orden' element= {<MiOrden/>}/>
-            <Route path='/recuperarpass' element ={<RecuperarPass/>}/>
-            <Route path='/emailenviado' element={<EmailEnviado/>}/>
-            <Route path="/oauth2callback" component={Callback} />
+            <Route path="/oauth2callback" element={<Callback/>} />
             <Route path='/' element ={<Home/>}/>
+            <Route path="/search-results/:searchTerm" element={<SearchResultsPage />} />
+            <Route path="/categories/:categoryName" element={<CategoryResult/>} />
+            <Route path="/book/:bookId" element={<BookDetails />} />
         </Routes>
         </Layout>
     </BrowserRouter>

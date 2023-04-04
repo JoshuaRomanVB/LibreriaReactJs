@@ -8,6 +8,13 @@
     place-content: center;
 }
 
+.margin-top{
+    margin-top: 100px;
+}
+.carousel-control-icon {
+    color: #000000 !important;
+  }
+
 @media(max-width:640px){
     .card-container{
         display: grid;

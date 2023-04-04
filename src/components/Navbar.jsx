@@ -1,80 +1,91 @@
 import '@styles/Navbar.scss'
 import burger from '@assets/burger.ico'
 import cart from '@assets/cart.png'
-import Menu from '@Components/Menu.jsx'
 import React,{ useState, useContext, useEffect } from 'react';
 import AppContext from '../context/AppContext';
-import MiOrdenCo from './MiordenCo'
-import MenuCat from './MenuCat'
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '@assets/logo.png'
+import SearchResults from './SearchResults';
+import { useNavigate } from 'react-router-dom';
 
-const Header = () => {
 
- 
+function Navbar() {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === 'true');
 
-    const [mostrarComponente, setMostrarComponente] = useState(false);
-    const toggleComponente = () => {
-      setMostrarComponente(!mostrarComponente);
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+  };
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
     };
-
-    const [mostrarNav, setMostrarNav] = useState(false);
-    const toggleNav = () => {
-      setMostrarNav(!mostrarNav);
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
     };
+  }, []);
 
-    const [mostrarComponente2, setMostrarComponente2] = useState(false);
-    const toggleMiorden = () => {
-      setMostrarComponente2(!mostrarComponente2);
-    };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim().length === 0) {
+      alert("Por favor escribe algo antes de buscar");
+      return;
+    }
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setSearchResult(data.items);
+        navigate(`/search-results/${searchTerm}`);
+      });
+  };
 
-    const {state} = useContext(AppContext)
-
-    useEffect(() => {
-        const handleResize = () => {
-          if (window.innerWidth > 640) {
-            setMostrarNav(false)
-            setMostrarComponente(false)
-          } 
-        };
-    
-        window.addEventListener("resize", handleResize);
-        handleResize();
-    
-        return () => {
-          window.removeEventListener("resize", handleResize);
-        };
-      }, []);
-
-
-
-    return (
-        <div>
-  <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container">
-        <Link to="/" className="navbar-brand">
-          <img src={logo} alt="logo-nav" className="me-2 logo-nav" />
-          My Bookshelf
-        </Link>
-        <form className="d-flex mx-auto">
-          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button className="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <div className="d-flex">
-          <Link to="/profile" className="btn btn-outline-secondary me-2">Profile</Link>
-          <Link to="/library" className="btn btn-outline-secondary">Library</Link>
+  return (
+    <div>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container">
+          <Link to="/" className="navbar-brand">
+            <img src={logo} alt="logo-nav" className="me-2 logo-nav" />
+            Book Nook
+          </Link>
+          <form className="d-flex mx-auto" onSubmit={handleSearch}>
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button className="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+          {isLoggedIn ? (
+            <div className="d-flex">
+              <Link to="/micuenta" className="btn btn-outline-secondary me-2">
+                Profile
+              </Link>
+              <Link to="/login" className="btn btn-outline-secondary" onClick={handleLogout}>
+                Logout
+              </Link>
+            </div>
+          ) : (
+            <div className="d-flex">
+              <Link to="/login" className="btn btn-outline-secondary">
+                Iniciar sesión
+              </Link>
+            </div>
+          )}
         </div>
-      </div>
-    </nav>
-
-    {mostrarComponente2 && <MiOrdenCo/>}
-    {mostrarComponente && <Menu/>}
-
-    {mostrarNav && <MenuCat/>}
-        </div>
-       
-    );
+      </nav>
+    </div>
+  );
 }
 
-export default Header;
+export default Navbar;

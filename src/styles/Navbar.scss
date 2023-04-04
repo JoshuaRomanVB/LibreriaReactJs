@@ -1,24 +1,13 @@
 @import '_vars';
 
-nav{
-    position: fixed;
-    top:0;
-    left:0;
-    right: 0;
-    width: 98%;
-    background-color: var(--azul-marino);
-    display: flex;
-    justify-content: space-between;
-    padding: 0 24px;
-    border-bottom: 1px solid var(--gris-secundario);
-    padding-top: 10px;
-}
+
 
 .navbar {
-    position: fixed;
+    position: fixed !important;
     top:0;
     left:0;
     right: 0;
+    z-index: 20;
     display: flex;
     justify-content: space-between;
     align-items: center;

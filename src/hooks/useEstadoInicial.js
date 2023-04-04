@@ -1,32 +1,32 @@
 import React, { useState } from 'react'
 
 const estadoInicial = {
-  carrito: [],
+  usuario: null,
+  isLoggedIn: false,
+  login: () => {},
+  logout: () => {},
 };
 
 const useEstadoInicial = () => {
   const [state, setState] = useState(estadoInicial);
 
-  const agregarCarrito = (payload) => {
+  const setUsuario = (usuario) => {
     setState({
       ...state,
-      carrito: [...state.carrito, payload],
+      usuario: usuario,
     });
   };
 
-  const eliminarCarrito = (indexValue) => {
-
+  const setIsLoggedIn = (loggedIn) => {
     setState({
       ...state,
-      carrito: 
-      state.carrito.filter((item,index) => index !== indexValue),
+      isLoggedIn: loggedIn,
     });
   };
-
   return {
     state,
-    agregarCarrito,
-    eliminarCarrito,
+    setUsuario,
+    setIsLoggedIn
   };
 };
 
